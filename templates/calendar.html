@@ -4,25 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='calendar.css') }}">
     <title>Calendar</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: lightgray;
-        }
-    </style>
 </head>
 <body>
+<h1>Calendario</h1>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 <ul id="messages" class="list-unstyled">
@@ -32,83 +18,52 @@
 </ul>
 {% endif %}
 {% endwith %}
-<h1>Calendário</h1>
-<a href="{{ url_for('logout') }}">Deslogar</a>
-<br>
-<a href="{{ url_for('newevent') }}">Adicionar evento</a>
-<table id="calendar"></table>
-<table>
-    <thead>
-    <tr>
-        <td>Nome</td>
-        <td>Data</td>
-        <td>Descrição</td>
-    </tr>
-    </thead>
-    <tbody>
-    {% for task in tasks %}
-    <tr>
-        <td>{{task.task_name}}</td>
-        <td>{{task.task_date}}</td>
-        <td>{{task.task_description}}</td>
-    </tr>
-    {%endfor%}
-    </tbody>
-</table>
+<div class="container">
+    <div class="card">
+        <h3 class="card-header" id="monthAndYear"></h3>
+        <table class="table" id="calendar">
+            <thead>
+            <tr>
+                <th>Dom</th>
+                <th>Seg</th>
+                <th>Ter</th>
+                <th>Qua</th>
+                <th>Qui</th>
+                <th>Sex</th>
+                <th>Sab</th>
+            </tr>
+            </thead>
+            <tbody id="calendar-body">
+            </tbody>
+        </table>
+        <div>
+            <button class="btn btn-outline-dark" id="previous" onclick="previous()">Anterior</button>
+            <button class="btn btn-outline-dark" id="next" onclick="next()">Proximo</button>
+        </div>
+        <a id="month" onchange="jump()"></a>
+        <a id="year" onchange="jump()"></a>
+    </div>
+    <a class="btn btn-danger" href="{{ url_for('logout') }}">Deslogar</a>
+    <a class="btn btn-primary" href="{{ url_for('newevent') }}">Nova Tarefa</a>
+    <table>
+        <thead>
+        <tr>
+            <td>Nome</td>
+            <td>Data</td>
+            <td>Descrição</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{task.task_name}}</td>
+            <td>{{task.task_date}}</td>
+            <td>{{task.task_description}}</td>
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+</div>
 </body>
-<script>
-    function renderCalendar() {
-        const monthNames = [
-            "Janeiro", "Fevereiro", "Março", "Abril",
-            "Maio", "Junho", "Julho", "Agosto",
-            "Setembro", "Outubro", "Novembro", "Dezembro"
-        ];
-        const dayNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-
-        const date = new Date();
-        const month = date.getMonth();
-        const year = date.getFullYear();
-
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-        const daysInMonth = lastDay.getDate();
-
-        const calendar = document.getElementById("calendar");
-
-        // Criar cabeçalho da tabela
-        const headerRow = document.createElement("tr");
-        for (let i = 0; i < 7; i++) {
-            const headerCell = document.createElement("th");
-            headerCell.innerHTML = dayNames[i];
-            headerRow.appendChild(headerCell);
-        }
-        calendar.appendChild(headerRow);
-
-        // Preencher dias do mês
-        let currentDay = 1;
-        for (let i = 0; i < 6; i++) {
-            const row = document.createElement("tr");
-            for (let j = 0; j < 7; j++) {
-                const cell = document.createElement("td");
-                if (i === 0 && j < firstDay.getDay()) {
-                    cell.innerHTML = "";
-                } else if (currentDay <= daysInMonth) {
-                    cell.innerHTML = currentDay;
-                    currentDay++;
-                } else {
-                    break;
-                }
-                row.appendChild(cell);
-            }
-            calendar.appendChild(row);
-        }
-
-        // Adicionar título do mês
-        const title = document.createElement("caption");
-        title.innerHTML = `${monthNames[month]} ${year}`;
-        calendar.appendChild(title);
-    }
-
-    renderCalendar();
-</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </html>
