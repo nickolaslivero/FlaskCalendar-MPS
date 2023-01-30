@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>Cadastro</h1>
+
 <form action="{{ url_for('cadastro') }}" method="post">
     <label for="usuario">Usuário:</label>
     <input type="text" id="usuario" name="usuario">
@@ -15,8 +16,9 @@
     <label for="senha">Senha:</label>
     <input type="password" id="senha" name="senha">
     <br><br>
-    <input type="submit" value="Enviar">
-    <a href="{{ url_for('login') }}">Já possui conta? Login</a>
+    <input class="btn btn-dark" type="submit" value="Enviar">
+    <a class="btn btn-primary" href="{{ url_for('login') }}">Já possui conta? Login</a>
 </form>
+
 </body>
 </html>

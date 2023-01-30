@@ -37,14 +37,14 @@
             </tbody>
         </table>
         <div>
-            <button class="btn btn-outline-dark" id="previous" onclick="previous()">Anterior</button>
-            <button class="btn btn-outline-dark" id="next" onclick="next()">Proximo</button>
+            <button class="btn btn-dark" id="previous" onclick="previous()">Anterior</button>
+            <button class="btn btn-dark" id="next" onclick="next()">Proximo</button>
+            <a class="btn btn-primary" href="{{ url_for('newevent') }}">Nova Tarefa</a>
+            <a class="btn btn-danger" href="{{ url_for('logout') }}">Deslogar</a>
         </div>
         <a id="month" onchange="jump()"></a>
         <a id="year" onchange="jump()"></a>
     </div>
-    <a class="btn btn-danger" href="{{ url_for('logout') }}">Deslogar</a>
-    <a class="btn btn-primary" href="{{ url_for('newevent') }}">Nova Tarefa</a>
     <table>
         <thead>
         <tr>
